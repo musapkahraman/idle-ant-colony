@@ -13,10 +13,12 @@ public class AntMover : MonoBehaviour
     private Vector3 _origin;
     private Target _target;
     private Transform _targetPiece;
+    private AntSounds _antSounds;
 
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _antSounds = GetComponent<AntSounds>();
     }
 
     public void Gather(int priority, Vector3 origin, Target target)
@@ -85,6 +87,7 @@ public class AntMover : MonoBehaviour
         {
             float lostScale = chewingInterval / loadingDuration;
             _targetPiece.localScale -= lostScale * Vector3.one;
+            _antSounds.PlayChewingSound();
         }
     }
 

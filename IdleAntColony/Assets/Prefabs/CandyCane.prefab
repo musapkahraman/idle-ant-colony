@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &8667274053864440960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455137364759268125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e54d9ff711119434fb59d55704a1cef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7761002051097902063
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +21,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7761002051097902062}
-  - component: {fileID: 3310183290913112169}
   m_Layer: 0
   m_Name: CandyCane
   m_TagString: Untagged
@@ -32,18 +43,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3310183290913112169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7761002051097902063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e54d9ff711119434fb59d55704a1cef0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7761002050451338828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93,6 +92,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e32d6fb90a2e4f54cbdd73261f0b205f, type: 3}
+--- !u!1 &7455137364759268125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e32d6fb90a2e4f54cbdd73261f0b205f, type: 3}
+  m_PrefabInstance: {fileID: 7761002050451338828}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7799714776330244519 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e32d6fb90a2e4f54cbdd73261f0b205f, type: 3}
