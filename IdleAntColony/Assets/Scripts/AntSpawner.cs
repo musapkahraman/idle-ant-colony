@@ -9,7 +9,7 @@ public class AntSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        Instantiate(antPrefab).GetComponent<AntMover>()
+        Instantiate(antPrefab).GetComponent<AntMovement>()
             .Gather(_newAntAgentPriority++, origin.position, target);
     }
 }

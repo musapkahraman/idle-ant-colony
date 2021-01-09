@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AntMover : MonoBehaviour
+public class AntMovement : MonoBehaviour
 {
     [SerializeField] private float chewingInterval = 0.5f;
     [SerializeField] private float loadingDuration = 4f;
@@ -13,12 +13,12 @@ public class AntMover : MonoBehaviour
     private Vector3 _origin;
     private Target _target;
     private Transform _targetPiece;
-    private EatingEffects _eatingEffects;
+    private AntFoodInteraction _antFoodInteraction;
 
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        _eatingEffects = GetComponent<EatingEffects>();
+        _antFoodInteraction = GetComponent<AntFoodInteraction>();
     }
 
     public void Gather(int priority, Vector3 origin, Target target)
@@ -73,7 +73,7 @@ public class AntMover : MonoBehaviour
         float lossScale = chewingInterval / loadingDuration;
         while (elapsedTime < loadingDuration)
         {
-            if (_targetPiece) _eatingEffects.Chew(_targetPiece, lossScale);
+            if (_targetPiece) _antFoodInteraction.Chew(_targetPiece, lossScale);
             yield return new WaitForSeconds(chewingInterval);
             elapsedTime += chewingInterval;
         }
@@ -85,6 +85,7 @@ public class AntMover : MonoBehaviour
     private IEnumerator UnloadingCoroutine()
     {
         yield return new WaitForSeconds(unloadingDuration);
+        
         GoToTheNextPiece();
     }
 

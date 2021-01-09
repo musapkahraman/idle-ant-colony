@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EatingEffects : MonoBehaviour
+public class AntFoodInteraction : MonoBehaviour
 {
     [SerializeField] private AudioClip[] chewingSounds;
     [SerializeField] private ParticleSystem particles;
