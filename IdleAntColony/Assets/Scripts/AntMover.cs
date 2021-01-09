@@ -1,12 +1,14 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class AntMover : MonoBehaviour
 {
-    [SerializeField] private float gatheringDuration;
+    [SerializeField] private float loadingDuration;
+    [SerializeField] private float unloadingDuration;
     private NavMeshAgent _navMeshAgent;
-    private Status _status = Status.GoingToResources;
+    private Status _status;
     private Vector3 _origin;
     private Vector3 _target;
 
@@ -30,17 +32,17 @@ public class AntMover : MonoBehaviour
         {
             switch (_status)
             {
-                case Status.Gathering:
-                    break;
                 case Status.GoingToResources:
-                    _navMeshAgent.SetDestination(_origin);
-                    _status = Status.ComingBackHome;
+                    _status = Status.Loading;
+                    StartCoroutine(LoadingCoroutine());
                     break;
                 case Status.ComingBackHome:
-                    _navMeshAgent.SetDestination(_target);
-                    _status = Status.GoingToResources;
+                    _status = Status.Unloading;
+                    StartCoroutine(UnloadingCoroutine());
                     break;
-                case Status.EmptyingHand:
+                case Status.Loading:
+                    break;
+                case Status.Unloading:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -48,11 +50,25 @@ public class AntMover : MonoBehaviour
         }
     }
 
+    private IEnumerator LoadingCoroutine()
+    {
+        yield return new WaitForSeconds(loadingDuration);
+        _status = Status.ComingBackHome;
+        _navMeshAgent.SetDestination(_origin);
+    }
+
+    private IEnumerator UnloadingCoroutine()
+    {
+        yield return new WaitForSeconds(unloadingDuration);
+        _status = Status.GoingToResources;
+        _navMeshAgent.SetDestination(_target);
+    }
+
     private enum Status
     {
-        Gathering,
         GoingToResources,
         ComingBackHome,
-        EmptyingHand
+        Loading,
+        Unloading
     }
 }
