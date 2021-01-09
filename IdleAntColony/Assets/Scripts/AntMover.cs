@@ -13,12 +13,12 @@ public class AntMover : MonoBehaviour
     private Vector3 _origin;
     private Target _target;
     private Transform _targetPiece;
-    private AntSounds _antSounds;
+    private EatingEffects _eatingEffects;
 
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        _antSounds = GetComponent<AntSounds>();
+        _eatingEffects = GetComponent<EatingEffects>();
     }
 
     public void Gather(int priority, Vector3 origin, Target target)
@@ -70,25 +70,16 @@ public class AntMover : MonoBehaviour
     private IEnumerator LoadingCoroutine()
     {
         var elapsedTime = 0f;
+        float lossScale = chewingInterval / loadingDuration;
         while (elapsedTime < loadingDuration)
         {
+            if (_targetPiece) _eatingEffects.Chew(_targetPiece, lossScale);
             yield return new WaitForSeconds(chewingInterval);
-            Chew();
             elapsedTime += chewingInterval;
         }
 
         _status = Status.ComingBackHome;
         _navMeshAgent.SetDestination(_origin);
-    }
-
-    private void Chew()
-    {
-        if (_targetPiece)
-        {
-            float lostScale = chewingInterval / loadingDuration;
-            _targetPiece.localScale -= lostScale * Vector3.one;
-            _antSounds.PlayChewingSound();
-        }
     }
 
     private IEnumerator UnloadingCoroutine()

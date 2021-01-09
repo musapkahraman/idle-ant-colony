@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class AntSounds : MonoBehaviour
+public class EatingEffects : MonoBehaviour
 {
     [SerializeField] private AudioClip[] chewingSounds;
+    [SerializeField] private ParticleSystem particles;
     private AudioSource _audioSource;
     private static bool _isAlreadyPlaying;
 
@@ -12,10 +13,23 @@ public class AntSounds : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlayChewingSound()
+    public void Chew(Transform targetPiece, float lossScale)
+    {
+        targetPiece.localScale -= lossScale * Vector3.one;
+        PlayChewingSound();
+        var targetMaterials = targetPiece.GetComponent<Renderer>().materials;
+        if (targetMaterials.Length > 0)
+        {
+            var targetColor = targetMaterials[targetMaterials.Length - 1].color;
+            var settings = particles.main;
+            settings.startColor = new ParticleSystem.MinMaxGradient(targetColor);
+            particles.Play();
+        }
+    }
+
+    private void PlayChewingSound()
     {
         if (chewingSounds.Length == 0 || _isAlreadyPlaying) return;
-        
         var soundClip = chewingSounds[Random.Range(0, chewingSounds.Length)];
         _audioSource.PlayOneShot(soundClip);
         StartCoroutine(SoundPlayTimeWaitingCoroutine(soundClip.length));
