@@ -5,19 +5,22 @@ using UnityEngine.AI;
 public class AntMover : MonoBehaviour
 {
     [SerializeField] private float gatheringDuration;
-    [SerializeField] private Transform origin;
-    [SerializeField] private Transform target;
     private NavMeshAgent _navMeshAgent;
     private Status _status = Status.GoingToResources;
+    private Vector3 _origin;
+    private Vector3 _target;
 
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    private void Start()
+    public void Gather(int priority, Vector3 origin, Vector3 target)
     {
-        _navMeshAgent.SetDestination(target.position);
+        _navMeshAgent.avoidancePriority = priority;
+        _origin = origin;
+        _target = target;
+        _navMeshAgent.SetDestination(_target);
         _status = Status.GoingToResources;
     }
 
@@ -30,11 +33,11 @@ public class AntMover : MonoBehaviour
                 case Status.Gathering:
                     break;
                 case Status.GoingToResources:
-                    _navMeshAgent.SetDestination(origin.position);
+                    _navMeshAgent.SetDestination(_origin);
                     _status = Status.ComingBackHome;
                     break;
                 case Status.ComingBackHome:
-                    _navMeshAgent.SetDestination(target.position);
+                    _navMeshAgent.SetDestination(_target);
                     _status = Status.GoingToResources;
                     break;
                 case Status.EmptyingHand:
