@@ -5,25 +5,40 @@ using UnityEngine.AI;
 
 public class AntMover : MonoBehaviour
 {
-    [SerializeField] private float loadingDuration;
-    [SerializeField] private float unloadingDuration;
+    [SerializeField] private float chewingInterval = 0.5f;
+    [SerializeField] private float loadingDuration = 4f;
+    [SerializeField] private float unloadingDuration = 1f;
     private NavMeshAgent _navMeshAgent;
     private Status _status;
     private Vector3 _origin;
-    private Vector3 _target;
+    private Target _target;
+    private Transform _targetPiece;
 
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    public void Gather(int priority, Vector3 origin, Vector3 target)
+    public void Gather(int priority, Vector3 origin, Target target)
     {
         _navMeshAgent.avoidancePriority = priority;
         _origin = origin;
         _target = target;
-        _navMeshAgent.SetDestination(_target);
-        _status = Status.GoingToResources;
+        GoToTheNextPiece();
+    }
+
+    private void GoToTheNextPiece()
+    {
+        if (_target.GetNextPiece(_origin, out var piece))
+        {
+            _targetPiece = piece;
+            _navMeshAgent.SetDestination(_targetPiece.position);
+            _status = Status.GoingToResources;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
@@ -52,16 +67,31 @@ public class AntMover : MonoBehaviour
 
     private IEnumerator LoadingCoroutine()
     {
-        yield return new WaitForSeconds(loadingDuration);
+        var elapsedTime = 0f;
+        while (elapsedTime < loadingDuration)
+        {
+            yield return new WaitForSeconds(chewingInterval);
+            Chew();
+            elapsedTime += chewingInterval;
+        }
+
         _status = Status.ComingBackHome;
         _navMeshAgent.SetDestination(_origin);
+    }
+
+    private void Chew()
+    {
+        if (_targetPiece)
+        {
+            float lostScale = chewingInterval / loadingDuration;
+            _targetPiece.localScale -= lostScale * Vector3.one;
+        }
     }
 
     private IEnumerator UnloadingCoroutine()
     {
         yield return new WaitForSeconds(unloadingDuration);
-        _status = Status.GoingToResources;
-        _navMeshAgent.SetDestination(_target);
+        GoToTheNextPiece();
     }
 
     private enum Status
