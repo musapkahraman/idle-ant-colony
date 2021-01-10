@@ -5,15 +5,18 @@ using UnityEngine.AI;
 
 public class AntMovement : MonoBehaviour
 {
+    [SerializeField] private Bank bank;
     [SerializeField] private float chewingInterval = 0.5f;
     [SerializeField] private float loadingDuration = 4f;
     [SerializeField] private float unloadingDuration = 1f;
+    [SerializeField] private float loadCapacity = 1f;
+    private AntFoodInteraction _antFoodInteraction;
+    private Vector3 _homePosition;
+    private int _loadedFood;
     private NavMeshAgent _navMeshAgent;
     private Status _status;
-    private Vector3 _origin;
     private Target _target;
     private Transform _targetPiece;
-    private AntFoodInteraction _antFoodInteraction;
 
     private void Awake()
     {
@@ -21,21 +24,30 @@ public class AntMovement : MonoBehaviour
         _antFoodInteraction = GetComponent<AntFoodInteraction>();
     }
 
+    private void Update()
+    {
+        if (!_navMeshAgent.hasPath) OnNavigationEnded();
+    }
+
     public void Gather(int priority, Vector3 origin, Target target)
     {
         _navMeshAgent.avoidancePriority = priority;
-        _origin = origin;
+        _homePosition = origin;
         _target = target;
         GoToTheNextPiece();
     }
 
     private void GoToTheNextPiece()
     {
-        if (_target.GetNextPiece(_origin, out var piece))
+        if (_target.GetNextPiece(_homePosition, out var piece))
         {
             _targetPiece = piece;
             _navMeshAgent.SetDestination(_targetPiece.position);
             _status = Status.GoingToResources;
+        }
+        else if (_loadedFood > 0)
+        {
+            ComeBackHome();
         }
         else
         {
@@ -43,27 +55,30 @@ public class AntMovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void ComeBackHome()
     {
-        if (!_navMeshAgent.hasPath)
+        _status = Status.ComingBackHome;
+        _navMeshAgent.SetDestination(_homePosition);
+    }
+
+    private void OnNavigationEnded()
+    {
+        switch (_status)
         {
-            switch (_status)
-            {
-                case Status.GoingToResources:
-                    _status = Status.Loading;
-                    StartCoroutine(LoadingCoroutine());
-                    break;
-                case Status.ComingBackHome:
-                    _status = Status.Unloading;
-                    StartCoroutine(UnloadingCoroutine());
-                    break;
-                case Status.Loading:
-                    break;
-                case Status.Unloading:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            case Status.GoingToResources:
+                _status = Status.Loading;
+                StartCoroutine(LoadingCoroutine());
+                break;
+            case Status.ComingBackHome:
+                _status = Status.Unloading;
+                StartCoroutine(UnloadingCoroutine());
+                break;
+            case Status.Loading:
+                break;
+            case Status.Unloading:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -78,14 +93,17 @@ public class AntMovement : MonoBehaviour
             elapsedTime += chewingInterval;
         }
 
-        _status = Status.ComingBackHome;
-        _navMeshAgent.SetDestination(_origin);
+        if (++_loadedFood < loadCapacity)
+            GoToTheNextPiece();
+        else
+            ComeBackHome();
     }
 
     private IEnumerator UnloadingCoroutine()
     {
         yield return new WaitForSeconds(unloadingDuration);
-        
+        bank.ExchangeFoodPiece(_loadedFood);
+        _loadedFood = 0;
         GoToTheNextPiece();
     }
 

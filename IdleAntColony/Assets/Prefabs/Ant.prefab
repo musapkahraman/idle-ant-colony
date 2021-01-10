@@ -70,9 +70,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b324a998a56ae2849962fd689d683fed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bank: {fileID: 11400000, guid: fc8cb65c09eab3649a441070f81999e9, type: 2}
   chewingInterval: 0.5
   loadingDuration: 4
   unloadingDuration: 1
+  loadCapacity: 2
 --- !u!82 &6073923396782319114
 AudioSource:
   m_ObjectHideFlags: 0

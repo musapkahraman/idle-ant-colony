@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class AntFoodInteraction : MonoBehaviour
 {
+    private static bool _isAlreadyPlaying;
     [SerializeField] private AudioClip[] chewingSounds;
     [SerializeField] private ParticleSystem particles;
     private AudioSource _audioSource;
-    private static bool _isAlreadyPlaying;
 
     private void Awake()
     {
