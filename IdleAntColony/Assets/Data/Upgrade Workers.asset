@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 370c463856e343cfad83748e10981f21, type: 3}
-  m_Name: Bank
+  m_Script: {fileID: 11500000, guid: dc74bc7b09164460abfc5158f0830a55, type: 3}
+  m_Name: Upgrade Workers
   m_EditorClassIdentifier: 
-  foodPrice: 5
-  goldAccumulated: 10
+  bank: {fileID: 11400000, guid: fc8cb65c09eab3649a441070f81999e9, type: 2}
+  level: 1
+  cost: 10
+  costIncreaseRatio: 1.4

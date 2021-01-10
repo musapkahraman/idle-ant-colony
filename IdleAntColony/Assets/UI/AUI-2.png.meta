@@ -8,6 +8,12 @@ TextureImporter:
   - first:
       213: 7601592521595599730
     second: upgrade_button_passive
+  - first:
+      213: -8707885836257058363
+    second: Ant
+  - first:
+      213: -1139399403758943458
+    second: Gold
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -182,6 +188,48 @@ TextureImporter:
       bones: []
       spriteID: 27bb8f89f184e7960800000000000000
       internalID: 7601592521595599730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 928
+        width: 182
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c12e31e7ff572780800000000000000
+      internalID: -8707885836257058363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gold
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 915
+        width: 257
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1308a1774a0030f0800000000000000
+      internalID: -1139399403758943458
       vertices: []
       indices: 
       edges: []

@@ -29,7 +29,7 @@ public class AntMovement : MonoBehaviour
         if (!_navMeshAgent.hasPath) OnNavigationEnded();
     }
 
-    public void Gather(int priority, Vector3 origin, Target target)
+    public void Work(int priority, Vector3 origin, Target target)
     {
         _navMeshAgent.avoidancePriority = priority;
         _homePosition = origin;

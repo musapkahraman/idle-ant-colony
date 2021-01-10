@@ -12,4 +12,11 @@ public class Bank : ScriptableObject
     {
         goldAccumulated += foodPrice * pieceAmount;
     }
+
+    public bool Spend(int amount)
+    {
+        if (goldAccumulated < amount) return false;
+        goldAccumulated -= amount;
+        return true;
+    }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AntSpawner : MonoBehaviour
 {
+    [SerializeField] private Upgrade workersUpgrade;
     [SerializeField] private GameObject antPrefab;
     public Transform origin;
     public Target target;
@@ -9,7 +10,8 @@ public class AntSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        Instantiate(antPrefab).GetComponent<AntMovement>()
-            .Gather(_newAntAgentPriority++, origin.position, target);
+        if (workersUpgrade.IncreaseLevel())
+            Instantiate(antPrefab).GetComponent<AntMovement>()
+                .Work(_newAntAgentPriority++, origin.position, target);
     }
 }
