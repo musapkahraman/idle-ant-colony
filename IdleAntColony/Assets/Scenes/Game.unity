@@ -498,7 +498,7 @@ GameObject:
   - component: {fileID: 1131468416}
   - component: {fileID: 1131468415}
   m_Layer: 5
-  m_Name: SpawnButton
+  m_Name: UpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
