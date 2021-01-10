@@ -1,3 +1,4 @@
+using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -5,27 +6,40 @@ public class UpgradeButtonController : MonoBehaviour
 {
     [SerializeField] private Upgrade upgrade;
     [SerializeField] private TMP_Text levelText;
-    [SerializeField] private TMP_Text priceText;
+    [SerializeField] private TMP_Text costText;
+
+    private void Start()
+    {
+        SetLevelText(upgrade.Level);
+        costText.text = upgrade.Cost.ToString();
+    }
 
     private void OnEnable()
     {
         upgrade.LevelChanged += OnLevelChanged;
-        upgrade.PriceChanged += OnPriceChanged;
+        upgrade.CostChanged += OnCostChanged;
     }
 
     private void OnDisable()
     {
         upgrade.LevelChanged -= OnLevelChanged;
-        upgrade.PriceChanged -= OnPriceChanged;
+        upgrade.CostChanged -= OnCostChanged;
     }
 
     private void OnLevelChanged(int level)
     {
-        levelText.text = level.ToString();
+        SetLevelText(level);
     }
 
-    private void OnPriceChanged(int price)
+    private void OnCostChanged(int cost)
     {
-        priceText.text = price.ToString();
+        costText.text = cost.ToString();
+    }
+
+    private void SetLevelText(int level)
+    {
+        var sb = new StringBuilder("Lv. ");
+        sb.Append(level);
+        levelText.text = sb.ToString();
     }
 }

@@ -14,7 +14,7 @@ public class AntMovement : MonoBehaviour
     private Vector3 _homePosition;
     private int _loadedFood;
     private NavMeshAgent _navMeshAgent;
-    private Status _status;
+    private Status _status = Status.Idle;
     private Target _target;
     private Transform _targetPiece;
 
@@ -49,7 +49,7 @@ public class AntMovement : MonoBehaviour
         {
             ComeBackHome();
         }
-        else
+        else if (_status != Status.Idle)
         {
             Destroy(gameObject);
         }
@@ -76,6 +76,9 @@ public class AntMovement : MonoBehaviour
             case Status.Loading:
                 break;
             case Status.Unloading:
+                break;
+            case Status.Idle:
+                ComeBackHome();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -112,6 +115,7 @@ public class AntMovement : MonoBehaviour
         GoingToResources,
         ComingBackHome,
         Loading,
-        Unloading
+        Unloading,
+        Idle
     }
 }

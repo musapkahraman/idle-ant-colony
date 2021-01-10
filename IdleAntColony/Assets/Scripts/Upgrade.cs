@@ -11,7 +11,10 @@ public class Upgrade : ScriptableObject
 
     public Action<int> LevelChanged;
 
-    public Action<int> PriceChanged;
+    public Action<int> CostChanged;
+
+    public int Level => level;
+    public int Cost => cost;
 
     private void OnValidate()
     {
@@ -35,9 +38,9 @@ public class Upgrade : ScriptableObject
 
     private void IncreaseUpgradeCost()
     {
-        var priceFloatValue = (float) cost;
-        priceFloatValue *= costIncreaseRatio;
-        cost = (int) priceFloatValue;
-        PriceChanged?.Invoke(cost);
+        var costFloatValue = (float) cost;
+        costFloatValue *= costIncreaseRatio;
+        cost = (int) costFloatValue;
+        CostChanged?.Invoke(cost);
     }
 }
