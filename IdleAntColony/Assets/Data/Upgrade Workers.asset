@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bank: {fileID: 11400000, guid: fc8cb65c09eab3649a441070f81999e9, type: 2}
   level: 1
-  cost: 10
-  costIncreaseRatio: 1.4
+  cost: 5
+  baseCostIncrease: 0.1

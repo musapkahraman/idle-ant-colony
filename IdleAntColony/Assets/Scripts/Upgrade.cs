@@ -7,7 +7,7 @@ public class Upgrade : Stat
     [SerializeField] private Bank bank;
     [SerializeField] private int level = 1;
     [SerializeField] private int cost = 1;
-    [Range(1f, 10f)] [SerializeField] private float costIncreaseRatio = 1.4f;
+    [Range(0.1f, 1f)] [SerializeField] private float baseCostIncrease = 0.15f;
 
     public Action<int> CostChanged;
 
@@ -18,7 +18,7 @@ public class Upgrade : Stat
     {
         if (level < 1) level = 1;
         if (cost < 1) cost = 1;
-        costIncreaseRatio = Mathf.Clamp(costIncreaseRatio, 1f, 10f);
+        baseCostIncrease = Mathf.Clamp(baseCostIncrease, 0.1f, 1f);
     }
 
     public override int GetStat()
@@ -41,9 +41,10 @@ public class Upgrade : Stat
 
     private void IncreaseUpgradeCost()
     {
+        float costIncreaseRatio = baseCostIncrease + (float) level / (level - 1);
         var costFloatValue = (float) cost;
         costFloatValue *= costIncreaseRatio;
-        cost = (int) costFloatValue;
+        cost = Mathf.RoundToInt(costFloatValue);
         CostChanged?.Invoke(cost);
     }
 }

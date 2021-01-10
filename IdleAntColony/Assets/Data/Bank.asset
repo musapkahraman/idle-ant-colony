@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Bank
   m_EditorClassIdentifier: 
   foodPrice: 5
-  goldAccumulated: 10
+  goldAccumulated: 0

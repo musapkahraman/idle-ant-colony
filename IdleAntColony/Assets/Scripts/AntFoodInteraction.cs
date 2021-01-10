@@ -4,13 +4,15 @@ using UnityEngine;
 public class AntFoodInteraction : MonoBehaviour
 {
     private static bool _isAlreadyPlaying;
-    [SerializeField] private AudioClip[] chewingSounds;
+    [SerializeField] private AudioClip chewingSound;
     [SerializeField] private ParticleSystem particles;
     private AudioSource _audioSource;
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+        var settings = particles.main;
+        settings.duration = chewingSound.length;
     }
 
     public void Chew(Transform targetPiece, float lossScale)
@@ -29,10 +31,9 @@ public class AntFoodInteraction : MonoBehaviour
 
     private void PlayChewingSound()
     {
-        if (chewingSounds.Length == 0 || _isAlreadyPlaying) return;
-        var soundClip = chewingSounds[Random.Range(0, chewingSounds.Length)];
-        _audioSource.PlayOneShot(soundClip);
-        StartCoroutine(SoundPlayTimeWaitingCoroutine(soundClip.length));
+        if (_isAlreadyPlaying) return;
+        _audioSource.PlayOneShot(chewingSound);
+        StartCoroutine(SoundPlayTimeWaitingCoroutine(chewingSound.length));
     }
 
     private static IEnumerator SoundPlayTimeWaitingCoroutine(float length)
