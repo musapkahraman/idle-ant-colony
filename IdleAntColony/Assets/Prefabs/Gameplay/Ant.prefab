@@ -71,8 +71,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bank: {fileID: 11400000, guid: fc8cb65c09eab3649a441070f81999e9, type: 2}
-  chewingInterval: 0.5
-  loadingDuration: 4
+  speedUpgrade: {fileID: 11400000, guid: 5a78eb6db9a1e9c46bfb0fb4efa7cdff, type: 2}
+  baseLoadingDuration: 4
+  chewCount: 8
   unloadingDuration: 1
   loadCapacity: 2
 --- !u!82 &6073923396782319114
@@ -256,11 +257,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475750, guid: 263867d4955e3644f9a1dfa779ab7d1e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.298
+      value: 0.202
       objectReference: {fileID: 0}
     - target: {fileID: 475750, guid: 263867d4955e3644f9a1dfa779ab7d1e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.513
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 475750, guid: 263867d4955e3644f9a1dfa779ab7d1e, type: 3}
       propertyPath: m_LocalRotation.w

@@ -544,9 +544,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AntSpawner, Assembly-CSharp
-        m_MethodName: Spawn
+      - m_Target: {fileID: 3398830962711732268}
+        m_TargetAssemblyTypeName: UpgradeButtonController, Assembly-CSharp
+        m_MethodName: IncreaseLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

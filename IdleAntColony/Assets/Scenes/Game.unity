@@ -818,26 +818,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3398830962711732433, guid: adf6afd8b0a266147b6ef7760bd434be, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3398830962711732433, guid: adf6afd8b0a266147b6ef7760bd434be, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 114195616}
-    - target: {fileID: 3398830962711732433, guid: adf6afd8b0a266147b6ef7760bd434be, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnWorkersUpgradeButtonClicked
-      objectReference: {fileID: 0}
-    - target: {fileID: 3398830962711732433, guid: adf6afd8b0a266147b6ef7760bd434be, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3398830962711732433, guid: adf6afd8b0a266147b6ef7760bd434be, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3398830962711732435, guid: adf6afd8b0a266147b6ef7760bd434be, type: 3}
       propertyPath: m_Name
       value: PowerButton

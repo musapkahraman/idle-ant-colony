@@ -11,14 +11,12 @@ public class AntFoodInteraction : MonoBehaviour
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
-        var settings = particles.main;
-        settings.duration = chewingSound.length;
     }
 
-    public void Chew(Transform targetPiece, float lossScale)
+    public void Chew(Transform targetPiece, float lossScale, float chewingInterval)
     {
         targetPiece.localScale -= lossScale * Vector3.one;
-        PlayChewingSound();
+        PlayChewingSound(chewingInterval);
         var targetMaterials = targetPiece.GetComponent<Renderer>().materials;
         if (targetMaterials.Length > 0)
         {
@@ -29,11 +27,13 @@ public class AntFoodInteraction : MonoBehaviour
         }
     }
 
-    private void PlayChewingSound()
+    private void PlayChewingSound(float chewingInterval)
     {
         if (_isAlreadyPlaying) return;
+        float speed = chewingSound.length / chewingInterval;
+        _audioSource.pitch = speed;
         _audioSource.PlayOneShot(chewingSound);
-        StartCoroutine(SoundPlayTimeWaitingCoroutine(chewingSound.length));
+        StartCoroutine(SoundPlayTimeWaitingCoroutine(chewingInterval));
     }
 
     private static IEnumerator SoundPlayTimeWaitingCoroutine(float length)

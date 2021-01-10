@@ -6,11 +6,14 @@ using UnityEngine.AI;
 public class AntMovement : MonoBehaviour
 {
     [SerializeField] private Bank bank;
-    [SerializeField] private float chewingInterval = 0.5f;
-    [SerializeField] private float loadingDuration = 4f;
+    [SerializeField] private Upgrade speedUpgrade;
+    [SerializeField] private float baseLoadingDuration = 4f;
+    [SerializeField] private int chewCount = 8;
     [SerializeField] private float unloadingDuration = 1f;
     [SerializeField] private float loadCapacity = 1f;
     private AntFoodInteraction _antFoodInteraction;
+    private float _baseSpeed;
+    private float _loadingDuration;
     private Vector3 _homePosition;
     private int _loadedFood;
     private NavMeshAgent _navMeshAgent;
@@ -21,7 +24,30 @@ public class AntMovement : MonoBehaviour
     private void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _baseSpeed = _navMeshAgent.speed;
         _antFoodInteraction = GetComponent<AntFoodInteraction>();
+    }
+
+    private void Start()
+    {
+        OnSpeedLevelChanged(speedUpgrade.Level);
+    }
+
+    private void OnEnable()
+    {
+        speedUpgrade.StatChanged += OnSpeedLevelChanged;
+    }
+
+    private void OnDisable()
+    {
+        speedUpgrade.StatChanged -= OnSpeedLevelChanged;
+    }
+
+    private void OnSpeedLevelChanged(int speedLevel)
+    {
+        _navMeshAgent.speed = _baseSpeed * (1 + 0.1f * speedLevel);
+        float work = _baseSpeed * baseLoadingDuration;
+        _loadingDuration = work / _navMeshAgent.speed;
     }
 
     private void Update()
@@ -88,10 +114,11 @@ public class AntMovement : MonoBehaviour
     private IEnumerator LoadingCoroutine()
     {
         var elapsedTime = 0f;
-        float lossScale = chewingInterval / loadingDuration;
-        while (elapsedTime < loadingDuration)
+        float chewingInterval = _loadingDuration / chewCount;
+        float lossScale = chewingInterval / _loadingDuration;
+        while (elapsedTime < _loadingDuration)
         {
-            if (_targetPiece) _antFoodInteraction.Chew(_targetPiece, lossScale);
+            if (_targetPiece) _antFoodInteraction.Chew(_targetPiece, lossScale, chewingInterval);
             yield return new WaitForSeconds(chewingInterval);
             elapsedTime += chewingInterval;
         }

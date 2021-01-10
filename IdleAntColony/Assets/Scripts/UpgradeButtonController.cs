@@ -26,6 +26,11 @@ public class UpgradeButtonController : MonoBehaviour
         upgrade.CostChanged -= OnCostChanged;
     }
 
+    public void IncreaseLevel()
+    {
+        upgrade.IncreaseLevel();
+    }
+
     private void OnLevelChanged(int level)
     {
         SetLevelText(level);
