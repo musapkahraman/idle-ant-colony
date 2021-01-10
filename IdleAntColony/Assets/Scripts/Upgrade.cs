@@ -2,14 +2,12 @@
 using UnityEngine;
 
 [CreateAssetMenu]
-public class Upgrade : ScriptableObject
+public class Upgrade : Stat
 {
     [SerializeField] private Bank bank;
     [SerializeField] private int level = 1;
     [SerializeField] private int cost = 1;
     [Range(1f, 10f)] [SerializeField] private float costIncreaseRatio = 1.4f;
-
-    public Action<int> LevelChanged;
 
     public Action<int> CostChanged;
 
@@ -23,12 +21,17 @@ public class Upgrade : ScriptableObject
         costIncreaseRatio = Mathf.Clamp(costIncreaseRatio, 1f, 10f);
     }
 
+    public override int GetStat()
+    {
+        return level;
+    }
+
     public bool IncreaseLevel()
     {
         if (bank.Spend(cost))
         {
             level++;
-            LevelChanged?.Invoke(level);
+            OnStatChanged(level);
             IncreaseUpgradeCost();
             return true;
         }

@@ -14,6 +14,12 @@ TextureImporter:
   - first:
       213: -1139399403758943458
     second: Gold
+  - first:
+      213: 8921358626174680025
+    second: panel_rounded_blue
+  - first:
+      213: 7481737199246848611
+    second: panel_rounded_pink
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -222,7 +228,7 @@ TextureImporter:
         width: 257
         height: 257
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -230,6 +236,48 @@ TextureImporter:
       bones: []
       spriteID: e1308a1774a0030f0800000000000000
       internalID: -1139399403758943458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: panel_rounded_blue
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 1519
+        width: 212
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 75, y: 75, z: 75, w: 75}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9db320337680fcb70800000000000000
+      internalID: 8921358626174680025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: panel_rounded_pink
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 1519
+        width: 212
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 75, y: 75, z: 75, w: 75}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3623fefb75874d760800000000000000
+      internalID: 7481737199246848611
       vertices: []
       indices: 
       edges: []

@@ -16,13 +16,13 @@ public class UpgradeButtonController : MonoBehaviour
 
     private void OnEnable()
     {
-        upgrade.LevelChanged += OnLevelChanged;
+        upgrade.StatChanged += OnLevelChanged;
         upgrade.CostChanged += OnCostChanged;
     }
 
     private void OnDisable()
     {
-        upgrade.LevelChanged -= OnLevelChanged;
+        upgrade.StatChanged -= OnLevelChanged;
         upgrade.CostChanged -= OnCostChanged;
     }
 
