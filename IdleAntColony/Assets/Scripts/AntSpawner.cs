@@ -1,13 +1,15 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class AntSpawner : MonoBehaviour
+public class AntSpawner : MonoBehaviour, IAntDestroyedListener
 {
     [SerializeField] private Upgrade workersUpgrade;
     [SerializeField] private GameObject antPrefab;
     public Transform nest;
-    private TargetSpawner _targetSpawner;
+    private readonly List<int> _spawnedAnts = new List<int>();
     private int _newAntAgentPriority;
+    private TargetSpawner _targetSpawner;
 
     private void Awake()
     {
@@ -28,6 +30,15 @@ public class AntSpawner : MonoBehaviour
         }
     }
 
+    public void OnAntDestroyed(int antInstanceId)
+    {
+        _spawnedAnts.Remove(antInstanceId);
+        if (_spawnedAnts.Count == 0)
+        {
+            Debug.Log("Game finished!");
+        }
+    }
+
     public void OnWorkersUpgradeButtonClicked()
     {
         if (workersUpgrade.IncreaseLevel())
@@ -36,7 +47,9 @@ public class AntSpawner : MonoBehaviour
 
     private void SpawnFrom(Vector3 point)
     {
-        Instantiate(antPrefab, point, Quaternion.identity).GetComponent<AntMovement>()
-            .Work(_newAntAgentPriority++, nest.position, _targetSpawner.GetActiveTarget());
+        var ant = Instantiate(antPrefab, point, Quaternion.identity);
+        _spawnedAnts.Add(ant.GetInstanceID());
+        ant.GetComponent<AntMovement>()
+            .Work(this, _newAntAgentPriority++, nest.position, _targetSpawner.GetActiveTarget());
     }
 }

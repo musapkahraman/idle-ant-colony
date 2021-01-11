@@ -12,15 +12,16 @@ public class AntMovement : MonoBehaviour
     [SerializeField] private float baseLoadingDuration = 4f;
     [SerializeField] private int chewCount = 8;
     [SerializeField] private float unloadingDuration = 1f;
+    private readonly List<Transform> _loadedPieces = new List<Transform>();
+    private IAntDestroyedListener _antDestroyedListener;
     private AntFoodInteraction _antFoodInteraction;
     private float _baseSpeed;
-    private float _loadingDuration;
     private Vector3 _homePosition;
+    private float _loadingDuration;
     private NavMeshAgent _navMeshAgent;
     private Status _status = Status.Idle;
     private Target _target;
     private Transform _targetPiece;
-    private readonly List<Transform> _loadedPieces = new List<Transform>();
 
     private void Awake()
     {
@@ -32,6 +33,11 @@ public class AntMovement : MonoBehaviour
     private void Start()
     {
         OnSpeedLevelChanged(speedUpgrade.Level);
+    }
+
+    private void Update()
+    {
+        if (!_navMeshAgent.hasPath) OnNavigationEnded();
     }
 
     private void OnEnable()
@@ -51,13 +57,9 @@ public class AntMovement : MonoBehaviour
         _loadingDuration = work / _navMeshAgent.speed;
     }
 
-    private void Update()
+    public void Work(IAntDestroyedListener antDestroyedListener, int priority, Vector3 origin, Target target)
     {
-        if (!_navMeshAgent.hasPath) OnNavigationEnded();
-    }
-
-    public void Work(int priority, Vector3 origin, Target target)
-    {
+        _antDestroyedListener = antDestroyedListener;
         _navMeshAgent.avoidancePriority = priority;
         _homePosition = origin;
         _target = target;
@@ -78,6 +80,7 @@ public class AntMovement : MonoBehaviour
         }
         else if (_status != Status.Idle)
         {
+            _antDestroyedListener.OnAntDestroyed(gameObject.GetInstanceID());
             Destroy(gameObject);
         }
     }
