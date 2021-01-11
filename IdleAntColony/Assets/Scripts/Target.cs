@@ -7,9 +7,10 @@ public class Target : MonoBehaviour
 
     private void Awake()
     {
-        foreach (var child in transform.GetComponentsInChildren<Transform>())
+        var root = transform.GetChild(0);
+        foreach (var child in root.GetComponentsInChildren<Transform>())
         {
-            if (child == transform) continue;
+            if (child == root) continue;
             _remainingPieces.Add(child);
         }
     }

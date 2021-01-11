@@ -6,8 +6,13 @@ public class AntSpawner : MonoBehaviour
     [SerializeField] private Upgrade workersUpgrade;
     [SerializeField] private GameObject antPrefab;
     public Transform nest;
-    public Target target;
+    private TargetSpawner _targetSpawner;
     private int _newAntAgentPriority;
+
+    private void Awake()
+    {
+        _targetSpawner = GetComponent<TargetSpawner>();
+    }
 
     private void Start()
     {
@@ -32,6 +37,6 @@ public class AntSpawner : MonoBehaviour
     private void SpawnFrom(Vector3 point)
     {
         Instantiate(antPrefab, point, Quaternion.identity).GetComponent<AntMovement>()
-            .Work(_newAntAgentPriority++, nest.position, target);
+            .Work(_newAntAgentPriority++, nest.position, _targetSpawner.GetActiveTarget());
     }
 }
