@@ -11,7 +11,6 @@ public class AntMovement : MonoBehaviour
     [SerializeField] private Upgrade powerUpgrade;
     [SerializeField] private float baseLoadingDuration = 4f;
     [SerializeField] private int chewCount = 8;
-    [SerializeField] private float unloadingDuration = 1f;
     private readonly List<Transform> _loadedPieces = new List<Transform>();
     private IAntDestroyedListener _antDestroyedListener;
     private AntFoodInteraction _antFoodInteraction;
@@ -71,7 +70,9 @@ public class AntMovement : MonoBehaviour
         if (_target.GetNextPiece(_homePosition, out var piece))
         {
             _targetPiece = piece;
-            _navMeshAgent.SetDestination(_targetPiece.position);
+            var position = _targetPiece.position;
+            var zeroHeightVector = new Vector3(position.x, 0, position.z);
+            _navMeshAgent.SetDestination(zeroHeightVector);
             _status = Status.GoingToResources;
         }
         else if (_loadedPieces.Count > 0)
@@ -101,7 +102,7 @@ public class AntMovement : MonoBehaviour
                 break;
             case Status.ComingBackHome:
                 _status = Status.Unloading;
-                StartCoroutine(UnloadingCoroutine());
+                Unload();
                 break;
             case Status.Loading:
                 break;
@@ -139,14 +140,13 @@ public class AntMovement : MonoBehaviour
     {
         _targetPiece.parent = transform;
         var pieceTransform = _targetPiece.transform;
-        pieceTransform.localScale = Vector3.one / 2;
-        pieceTransform.localPosition = Vector3.up / 2 + Vector3.up / 4 * _loadedPieces.Count;
+        pieceTransform.localScale = Vector3.one / 4;
+        pieceTransform.localPosition = Vector3.up / 2 + Vector3.up / 8 * _loadedPieces.Count;
         _loadedPieces.Add(_targetPiece);
     }
 
-    private IEnumerator UnloadingCoroutine()
+    private void Unload()
     {
-        yield return new WaitForSeconds(unloadingDuration);
         bank.ExchangeFoodPiece(_loadedPieces.Count);
         foreach (var piece in _loadedPieces) Destroy(piece.gameObject);
         _loadedPieces.Clear();
