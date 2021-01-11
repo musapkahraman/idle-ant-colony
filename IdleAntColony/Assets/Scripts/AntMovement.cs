@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,19 +8,19 @@ public class AntMovement : MonoBehaviour
 {
     [SerializeField] private Bank bank;
     [SerializeField] private Upgrade speedUpgrade;
+    [SerializeField] private Upgrade powerUpgrade;
     [SerializeField] private float baseLoadingDuration = 4f;
     [SerializeField] private int chewCount = 8;
     [SerializeField] private float unloadingDuration = 1f;
-    [SerializeField] private float loadCapacity = 1f;
     private AntFoodInteraction _antFoodInteraction;
     private float _baseSpeed;
     private float _loadingDuration;
     private Vector3 _homePosition;
-    private int _loadedFood;
     private NavMeshAgent _navMeshAgent;
     private Status _status = Status.Idle;
     private Target _target;
     private Transform _targetPiece;
+    private readonly List<Transform> _loadedPieces = new List<Transform>();
 
     private void Awake()
     {
@@ -71,7 +72,7 @@ public class AntMovement : MonoBehaviour
             _navMeshAgent.SetDestination(_targetPiece.position);
             _status = Status.GoingToResources;
         }
-        else if (_loadedFood > 0)
+        else if (_loadedPieces.Count > 0)
         {
             ComeBackHome();
         }
@@ -123,17 +124,29 @@ public class AntMovement : MonoBehaviour
             elapsedTime += chewingInterval;
         }
 
-        if (++_loadedFood < loadCapacity)
+        CompleteLoading();
+
+        if (_loadedPieces.Count < powerUpgrade.Level)
             GoToTheNextPiece();
         else
             ComeBackHome();
     }
 
+    private void CompleteLoading()
+    {
+        _targetPiece.parent = transform;
+        var pieceTransform = _targetPiece.transform;
+        pieceTransform.localScale = Vector3.one / 2;
+        pieceTransform.localPosition = Vector3.up / 2 + Vector3.up / 4 * _loadedPieces.Count;
+        _loadedPieces.Add(_targetPiece);
+    }
+
     private IEnumerator UnloadingCoroutine()
     {
         yield return new WaitForSeconds(unloadingDuration);
-        bank.ExchangeFoodPiece(_loadedFood);
-        _loadedFood = 0;
+        bank.ExchangeFoodPiece(_loadedPieces.Count);
+        foreach (var piece in _loadedPieces) Destroy(piece.gameObject);
+        _loadedPieces.Clear();
         GoToTheNextPiece();
     }
 

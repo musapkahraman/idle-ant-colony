@@ -72,10 +72,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bank: {fileID: 11400000, guid: fc8cb65c09eab3649a441070f81999e9, type: 2}
   speedUpgrade: {fileID: 11400000, guid: 5a78eb6db9a1e9c46bfb0fb4efa7cdff, type: 2}
+  powerUpgrade: {fileID: 11400000, guid: 56de0641583331f4c8fb81d567b3a5cd, type: 2}
   baseLoadingDuration: 4
   chewCount: 8
   unloadingDuration: 1
-  loadCapacity: 2
 --- !u!82 &6073923396782319114
 AudioSource:
   m_ObjectHideFlags: 0
