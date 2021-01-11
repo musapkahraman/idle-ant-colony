@@ -147,7 +147,7 @@ public class AntMovement : MonoBehaviour
 
     private void Unload()
     {
-        bank.ExchangeFoodPiece(_loadedPieces.Count);
+        bank.ExchangeFoodPiecesWithGold(_loadedPieces.Count);
         foreach (var piece in _loadedPieces) Destroy(piece.gameObject);
         _loadedPieces.Clear();
         GoToTheNextPiece();

@@ -13,9 +13,9 @@ public class Bank : Stat
         return goldAccumulated;
     }
 
-    public void ExchangeFoodPiece(int pieceAmount)
+    public void ExchangeFoodPiecesWithGold(int amount)
     {
-        goldAccumulated += foodPrice * pieceAmount;
+        goldAccumulated += foodPrice * amount;
         OnStatChanged(goldAccumulated);
     }
 
