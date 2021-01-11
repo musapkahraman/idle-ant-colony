@@ -22,9 +22,14 @@ namespace IdleAnt.Spawn
 
         private void Start()
         {
-            StartCoroutine(InitiateCurrentColony());
+            _targetSpawner.BringNextTarget(InitiateCurrentColony);
+        }
 
-            IEnumerator InitiateCurrentColony()
+        private void InitiateCurrentColony()
+        {
+            StartCoroutine(InitiateCurrentColonyCoroutine());
+
+            IEnumerator InitiateCurrentColonyCoroutine()
             {
                 for (var i = 0; i < workersUpgrade.Level; i++)
                 {
@@ -37,7 +42,8 @@ namespace IdleAnt.Spawn
         public void OnAntDestroyed(int antInstanceId)
         {
             _spawnedAnts.Remove(antInstanceId);
-            if (_spawnedAnts.Count == 0 && _targetSpawner.BringNextTarget()) Start();
+            if (_spawnedAnts.Count == 0)
+                _targetSpawner.BringNextTarget(InitiateCurrentColony);
         }
 
         public void OnWorkersUpgradeButtonClicked()
