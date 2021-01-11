@@ -10,7 +10,7 @@ public class Target : MonoBehaviour
         var root = transform.GetChild(0);
         foreach (var child in root.GetComponentsInChildren<Transform>())
         {
-            if (child == root) continue;
+            if (child == root || child.transform.localScale != Vector3.one) continue;
             _remainingPieces.Add(child);
         }
     }

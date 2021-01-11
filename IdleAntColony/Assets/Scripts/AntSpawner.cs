@@ -33,10 +33,7 @@ public class AntSpawner : MonoBehaviour, IAntDestroyedListener
     public void OnAntDestroyed(int antInstanceId)
     {
         _spawnedAnts.Remove(antInstanceId);
-        if (_spawnedAnts.Count == 0)
-        {
-            Debug.Log("Game finished!");
-        }
+        if (_spawnedAnts.Count == 0 && _targetSpawner.BringNextTarget()) Start();
     }
 
     public void OnWorkersUpgradeButtonClicked()
